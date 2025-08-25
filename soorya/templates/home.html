@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Faculty Publication Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://tse2.mm.bing.net/th/id/OIP.tMgSdmB9mFqHWMl5xt0teAHaDt?r=0&cb=thvnextc1&w=626&h=313&rs=1&pid=ImgDetMain') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #541f1f;
+        }
+
+        .home-container {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: solid transparent;
+            animation: glow 3s linear infinite, fadeIn 1.2s ease-in forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #007bff, 0 0 20px #007bff, 0 0 30px #007bff; border-color: #007bff; }
+            50% { box-shadow: 0 0 30px #0ef, 0 0 60px #0ef, 0 0 90px #0ef; border-color: #0ef; }
+            100% { box-shadow: 0 0 10px #007bff, 0 0 20px #007bff, 0 0 30px #007bff; border-color: #007bff; }
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #e0e0e0;
+        }
+
+        .message, .error {
+            font-weight: bold;
+            font-size: 15px;
+            margin: 10px 0;
+            padding: 10px 0;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .message {
+            color: #0ef;
+        }
+
+        .error {
+            color: #ff4d4d;
+        }
+
+        a {
+            color: #ffeb3b;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #fff176;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <h2>Welcome, {{ user }}!</h2>
+        <p>You are logged in as a {{ user_type }}.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="{{ 'message' if category == 'success' else 'error' }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if user_type == 'Faculty' %}
+            <a href="{{ url_for('submitpublication') }}">Submit Publication</a>
+            <a href="{{ url_for('share_notes') }}">Share Notes</a>
+        {% endif %}
+        <a href="{{ url_for('view_publications') }}">View Publications</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>

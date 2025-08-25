@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - Faculty Publication Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://tse2.mm.bing.net/th/id/OIP.tMgSdmB9mFqHWMl5xt0teAHaDt?r=0&cb=thvnextc1&w=626&h=313&rs=1&pid=ImgDetMain') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #541f1f;
+        }
+
+        .signup-container {
+            position: relative;
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: solid transparent;
+            animation: glow 3s linear infinite, fadeIn 1.2s ease-in forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #007bff, 0 0 20px #007bff, 0 0 30px #007bff; border-color: #007bff; }
+            50% { box-shadow: 0 0 30px #0ef, 0 0 60px #0ef, 0 0 90px #0ef; border-color: #0ef; }
+            100% { box-shadow: 0 0 10px #007bff, 0 0 20px #007bff, 0 0 30px #007bff; border-color: #007bff; }
+        }
+
+        .signup-container h2 {
+            margin-bottom: 10px;
+            font-size: 32px;
+            letter-spacing: 1px;
+            animation: popIn 1s cubic-bezier(.68,-0.55,.27,1.55) 0.5s both;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .signup-container p {
+            margin-bottom: 18px;
+            font-size: 16px;
+            color: #e0e0e0;
+            animation: fadeIn 1.5s 0.3s both;
+        }
+
+        .error {
+            font-weight: bold;
+            font-size: 15px;
+            margin: 10px 0;
+            padding: 10px 0;
+            border-radius: 5px;
+            color: #ff4d4d;
+            animation: slideDown 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateY(-30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input, select {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid #ccc;
+            transition: box-shadow 0.3s, border-color 0.3s, background 0.3s;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            box-shadow: 0 0 8px #45f3ff, 0 0 16px #0ef;
+            border: 2px solid #0ef;
+            background: rgba(255,255,255,0.1);
+        }
+
+        input::placeholder {
+            color: #ccc;
+        }
+
+        select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        button {
+            background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+            box-shadow: 0 0 10px #007bff44;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #0056b3 0%, #00e6e6 100%);
+            box-shadow: 0 0 20px #0ef;
+            transform: scale(1.03);
+        }
+
+        .login-link {
+            margin-top: 20px;
+            font-size: 15px;
+            color: #fff;
+            animation: fadeIn 1.8s 1s both;
+        }
+
+        .login-link a {
+            color: #ffeb3b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+            color: #fff176;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 28px;
+            font-weight: bold;
+            z-index: 1000;
+            letter-spacing: 1px;
+            animation: fadeIn 1.2s 0.2s both;
+        }
+
+        #emailField {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleEmailField() {
+            var userType = document.getElementById('user_type').value;
+            var emailField = document.getElementById('emailField');
+            if (userType === 'Student') {
+                emailField.style.display = 'block';
+                emailField.querySelector('input').required = true;
+            } else {
+                emailField.style.display = 'none';
+                emailField.querySelector('input').required = false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>Faculty of Science</header>
+
+    <div class="signup-container">
+        <h2>✍️ Sign Up</h2>
+        <p>Create your account</p>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form action="/signup_submit" method="POST">
+            <input type="text" name="username" placeholder="👤 Username" value="{{ username or '' }}" required>
+            <div id="emailField">
+                <input type="email" name="email" placeholder="📧 Email" value="{{ email or '' }}">
+            </div>
+            <input type="password" name="password" placeholder="🔑 Password" required>
+            <select name="user_type" id="user_type" onchange="toggleEmailField()" required>
+                <option value="">Select Role</option>
+                <option value="Faculty" {% if user_type == 'Faculty' %}selected{% endif %}>Faculty</option>
+                <option value="Student" {% if user_type == 'Student' %}selected{% endif %}>Student</option>
+            </select>
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <div class="login-link">
+            <p>Already have an account? <a href="/login_page">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize email field visibility based on initial selection
+        toggleEmailField();
+    </script>
+</body>
+</html>
